@@ -1,7 +1,7 @@
 import os
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from database import db
 
 app = Flask(__name__)
 
@@ -17,11 +17,15 @@ if not os.path.exists(db_directory):
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(db_directory, 'app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)
 migrate = Migrate(app, db)
 
+
 # Importing models here after initializing db to avoid circular import issues
-from models import User, Observation, Discussion, SpeciesProfile
+from models.user import User
+from models.observation import Observation
+from models.discussion import Discussion
+from models.species_profile import SpeciesProfile
 
 @app.route('/')
 def index():
