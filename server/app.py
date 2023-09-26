@@ -3,7 +3,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-from models import User, Observation, Discussion, SpeciesProfile
 app = Flask(__name__)
 
 # Define the base directory
@@ -21,12 +20,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-# ... (rest of your code)
-
+# Importing models here after initializing db to avoid circular import issues
+from models import User, Observation, Discussion, SpeciesProfile
 
 @app.route('/')
 def index():
-    return '<h1>Project Server</h1>'
+    return '<h1>Project Server!!</h1>'
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
