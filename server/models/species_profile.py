@@ -1,4 +1,4 @@
-from server.database import db
+from server.models import db
 from flask_login import UserMixin
 
 class SpeciesProfile(db.Model):

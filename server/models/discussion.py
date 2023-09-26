@@ -1,4 +1,4 @@
-from server.database import db
+from server.models import db
 
 class Discussion(db.Model):
     __tablename__ = 'discussions'

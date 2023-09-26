@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 from flask_migrate import Migrate
-from database import db
+from server.models import db
 
 app = Flask(__name__)
 

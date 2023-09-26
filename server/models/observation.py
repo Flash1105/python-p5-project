@@ -1,4 +1,4 @@
-from server.database import db
+from server.models import db
 
 class Observation(db.Model):
     observation_id = db.Column(db.Integer, primary_key=True)
