@@ -1,4 +1,7 @@
-from .user import User
-from .observation import Observation
-from .discussion import Discussion
-from .species_profile import SpeciesProfile
+from flask import Flask
+from auth import bp as auth_bp
+
+def create_app():
+    app = Flask(__name__)
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    return app
