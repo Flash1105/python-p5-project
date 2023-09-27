@@ -1,4 +1,5 @@
-from server.models import db
+from flask_sqlalchemy import SQLAlchemy
+from server.database import db
 
 class Discussion(db.Model):
     __tablename__ = 'discussions'

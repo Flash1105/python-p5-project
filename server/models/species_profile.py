@@ -1,5 +1,5 @@
-from server.models import db
-from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from server.database import db
 
 class SpeciesProfile(db.Model):
     __tablename__ = 'species_profiles'
