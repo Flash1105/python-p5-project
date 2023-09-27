@@ -18,3 +18,10 @@ def login():
         else:
             flash('Invalid username or password', 'danger')
     return render_template('login.html', form=form)
+
+@auth_bp.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    flash('You were successfully logged out!', 'success')
+    return redirect(url_for('main.index'))
+
