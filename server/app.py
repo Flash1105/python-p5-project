@@ -2,8 +2,10 @@ import os
 from flask import Flask
 from flask_migrate import Migrate
 from server.database import db
+from auth import bp as auth_bp
 
 app = Flask(__name__)
+app.register_blueprint(auth_bp, url_prefix='/auth')
 
 # Define the base directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -21,15 +23,9 @@ db.init_app(app)
 
 migrate = Migrate(app, db)
 
-# Importing models here after initializing db to avoid circular import issues
-from server.models.user import User
-from server.models.observation import Observation
-from server.models.discussion import Discussion
-from server.models.species_profile import SpeciesProfile
-
 @app.route('/')
 def index():
-    return '<h1>Project Server!!</h1>'
+    return '<h1>Welcome to EntomoConnect!</h1>'
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
