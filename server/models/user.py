@@ -1,6 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from server.database import db
+from enum import Enum
+
+class UserRole(Enum):
+    ENTHUSIAST = 'enthusiast'
+    ENTOMOLOGIST = 'entomologist'
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -12,9 +17,15 @@ class User(db.Model):
     role = db.Column(db.String(64))
     
     # Hashing the password before saving
-    def set_password(self, password):
+    def set_password(self, password: str) -> None:
+        """Generate a hashed password."""
         self.password_hash = generate_password_hash(password)
     
     # Verifying the password
-    def check_password(self, password):
+    def check_password(self, password: str) -> bool:
+        """Verify if the password hash matches the actual password."""
         return check_password_hash(self.password_hash, password)
+    
+    def __repr__(self) -> str:
+        """Provide a readable representation of the User object."""
+        return f"<User {self.username}>"
