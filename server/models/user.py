@@ -3,6 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from server.database import db
 from enum import Enum
 
+
+
 class UserRole(Enum):
     ENTHUSIAST = 'enthusiast'
     ENTOMOLOGIST = 'entomologist'
@@ -14,7 +16,7 @@ class User(db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
-    role = db.Column(db.String(64))
+    role = db.Column(db.Enum(UserRole), default=UserRole.ENTHUSIAST)
     
     # Hashing the password before saving
     def set_password(self, password: str) -> None:
