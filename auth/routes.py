@@ -1,5 +1,4 @@
 from flask import render_template, Blueprint, redirect, url_for, session, flash, request, redirect, url_for
-from . import bp  
 from werkzeug.security import check_password_hash
 from .forms import LoginForm, RegisterForm
 from server.models.user import User
@@ -7,8 +6,9 @@ from server.database import db
 from flask_login import login_required, login_user, logout_user, LoginManager
 from server.models.observation import Observation
 from server.models.discussion import Discussion
+from server.__init__ import login_manager
 
-login_manager = LoginManager()
+bp = Blueprint('auth', __name__)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -57,7 +57,7 @@ def register():
     else:
         print("form not validated", form.errors)
 
-    return render_template('register.html', form=form)
+    return render_template('register.html')
 
 @auth_bp.route('/dashboard')
 @login_required 
