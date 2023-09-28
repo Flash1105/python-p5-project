@@ -3,6 +3,7 @@ from flask import Flask, render_template
 from flask_migrate import Migrate
 from server.database import db
 from auth.routes import auth_bp, observation_bp
+from flask_login import LoginManager
 
 app = Flask(__name__, template_folder='../templates')
 app.register_blueprint(auth_bp, url_prefix='/auth.')
@@ -23,6 +24,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 migrate = Migrate(app, db)
+
+
 
 @app.route('/')
 def index():
