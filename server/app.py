@@ -9,6 +9,7 @@ app = Flask(__name__, template_folder='../templates')
 app.register_blueprint(auth_bp, url_prefix='/auth.')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'a_default_key')
 app.register_blueprint(observation_bp, url_prefix='/observation')
+
 # Define the base directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
