@@ -1,8 +1,8 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 from flask_migrate import Migrate
 from server.database import db
-from auth import bp as auth_bp
+from auth.routes import bp as auth_bp
 
 app = Flask(__name__)
 app.register_blueprint(auth_bp, url_prefix='/auth')
@@ -25,7 +25,7 @@ migrate = Migrate(app, db)
 
 @app.route('/')
 def index():
-    return '<h1>Welcome to EntomoConnect!</h1>'
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
