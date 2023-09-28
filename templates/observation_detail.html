@@ -1,0 +1,12 @@
+<h1>{{ observation.species}}</h1>
+
+{% for discussion in discussion %}
+    <div>
+        <p>{{ discussion.message }}</p>
+    </div>
+{% endfor %}
+
+<form method="post">
+    <texterea name="message"></texterea>
+    <button type="submit">Add discussion</button>
+</form>
