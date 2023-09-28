@@ -7,7 +7,9 @@ from server.database import db
 from flask_login import login_required, login_user, logout_user
 from server.models.observation import Observation
 from server.models.discussion import Discussion
-from flask_login import login_manager
+
+
+
 auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
