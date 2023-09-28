@@ -1,6 +1,6 @@
-from flask import Flask, render_template
 from flask_migrate import Migrate
 from server import create_app, db
+from flask import render_template
 
 app = create_app()
 

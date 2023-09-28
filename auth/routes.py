@@ -8,7 +8,7 @@ from server.models.observation import Observation
 from server.models.discussion import Discussion
 from server.__init__ import login_manager
 
-bp = Blueprint('auth', __name__)
+auth_bp = Blueprint('auth', __name__)
 
 @login_manager.user_loader
 def load_user(user_id):

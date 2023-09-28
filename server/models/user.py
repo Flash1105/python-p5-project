@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
     role = db.Column(db.Enum(UserRole), default=UserRole.ENTHUSIAST)
     
     is_active = db.Column(db.Boolean, default=True)
-    
+    pass
     
     @property
     def is_active(self):
