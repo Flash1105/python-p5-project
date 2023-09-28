@@ -42,7 +42,7 @@ class Observation(db.Model):
     images = db.Column(db.String(128))
     discussion = db.relationship('Discussion', backref='observation', lazy='dynamic')
     create_at = db.Column(db.DateTime, default=datetime.now)
-
+    
 
 class Discussion(db.Model):
     __tablename__ = 'discussions'

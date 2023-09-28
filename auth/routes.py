@@ -1,9 +1,10 @@
-from flask import render_template, Blueprint, redirect, url_for, session, flash
+from flask import render_template, Blueprint, redirect, url_for, session, flash, request, redirect, url_for
 from . import bp  
 from werkzeug.security import check_password_hash
 from .forms import LoginForm, RegisterForm
 from server.models.user import User
 from server.database import db
+from server.models.observation import Observation
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -43,3 +44,32 @@ def register():
             print(e)  # For debugging purpose. In production, consider logging the error.
     return render_template('register.html', form=form)
 
+observation_bp = Blueprint('observation', __name__)
+
+# display list of observations
+@observation_bp.route('/observations')
+def observations():
+    obs_list = Observation.query.all()
+    return render_template('observations.html', observations=obs_list)
+
+@observation_bp.route('/observation/<int:obs_id>', method=['GET', 'POST'])
+def observation_detail(obs_id):
+    observation = Observation.query.get(obs_id)
+    if request.method == 'POST':
+    
+    discussions = Discussion.query.filter_by(observation_id=obs_id).all()
+    return render_template('observation_detail.html', observation=observation, discussions=discussions)
+
+@observation_bp.route('/observations/new', methods=['GET', 'POST'])
+def new_observation():
+    if request.method =='POST':
+        species = request.form['species']
+        location = request.form['location']
+        behavior = request.form['behavior']
+        user_id = session['user_id']
+        images = request.form['images']
+        new_observation = Observation(species=species, location=location, behavior=behavior, user_id=user_id, images=images)
+        db.session.add(new_observation)
+        db.session.commit()
+        return redirect(url_for('observation.observations'))
+    return render_template('new_observation.html')
