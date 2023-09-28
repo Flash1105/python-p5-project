@@ -15,8 +15,6 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-auth_bp = Blueprint('auth', __name__)
-
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
