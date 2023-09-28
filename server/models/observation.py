@@ -4,10 +4,10 @@ from server.database import db
 class Observation(db.Model):
     __tablename__ = 'observations'
     id = db.Column(db.Integer, primary_key=True)
-    def __init__(self, species, location, behavior, user_id, images):
-        self.species = species
-        self.location = location
-        self.behavior = behavior
-        self.user_id = user_id
-        self.images = images
-    discussions = db.relationship('Discussion', back_populates='observation')
+    species = db.Column(db.String, nullable=False)
+    location = db.Column(db.String, nullable=False)
+    behavior = db.Column(db.String, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    images = db.Column(db.String, nullable=False)
+
+    discussions = db.relationship('Discussion', back_populates='observation', lazy=True)
