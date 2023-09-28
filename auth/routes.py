@@ -7,6 +7,7 @@ from server.database import db
 from flask_login import login_required, login_user, logout_user
 from server.models.observation import Observation
 from server.models.discussion import Discussion
+from flask_login import login_manager
 auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -17,7 +18,7 @@ def login():
         if user and check_password_hash(user.password_hash, form.password.data):
             login_user(user)
             flash('You were successfully logged in!', 'success')
-            return redirect(url_for('auth.dashboard'))
+            return redirect(url_for('templates.dashboard'))
         else:
             flash('Invalid username or password', 'danger')
     return render_template('login.html', form=form)
@@ -30,6 +31,7 @@ def logout():
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    print("Register route hit")
     form = RegisterForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
@@ -37,13 +39,17 @@ def register():
         try:
             db.session.add(user)
             db.session.commit()
+            print("User added to the database:", user)
             flash('You were successfully registered!', 'success')
             login_user(user)
             return redirect(url_for('auth.dashboard'))
         except Exception as e:
             db.session.rollback()
             flash('An error occurred. Please try again later.', 'danger')
-            print(e)  # For debugging purpose. In production, consider logging the error.
+            print("Error", e)
+    else:
+        print("form not validated", form.errors)
+
     return render_template('register.html', form=form)
 
 @auth_bp.route('/dashboard')
@@ -87,3 +93,6 @@ def new_observation():
         db.session.commit()
         return redirect(url_for('observation.observations'))
     return render_template('new_observation.html')
+
+def load_user(user_id):
+    return User.query.get(int(user_id))
