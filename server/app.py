@@ -9,9 +9,6 @@ app.config.from_object(Config)
 init_app(app)
 migrate = Migrate(app, db)
 
-from auth.routes import auth_bp, observation_bp
-app.register_blueprint(auth_bp, url_prefix='/auth')
-app.register_blueprint(observation_bp, url_prefix='/observation')
 
 @app.route('/')
 def index():
