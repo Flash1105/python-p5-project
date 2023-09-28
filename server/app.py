@@ -2,10 +2,10 @@ import os
 from flask import Flask, render_template
 from flask_migrate import Migrate
 from server.database import db
-from auth.routes import bp as auth_bp
+from auth.routes import auth_bp
 
-app = Flask(__name__)
-app.register_blueprint(auth_bp, url_prefix='/auth')
+app = Flask(__name__, template_folder='../templates')
+app.register_blueprint(auth_bp, url_prefix='/auth.')
 
 # Define the base directory
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
