@@ -9,7 +9,7 @@ class UserRole(Enum):
     ENTHUSIAST = 'enthusiast'
     ENTOMOLOGIST = 'entomologist'
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     user_id = db.Column(db.Integer, primary_key=True)
@@ -19,6 +19,12 @@ class User(db.Model):
     role = db.Column(db.Enum(UserRole), default=UserRole.ENTHUSIAST)
     
     is_active = db.Column(db.Boolean, default=True)
+    
+    
+    @property
+    def is_active(self):
+        return True
+        
     # Hashing the password before saving
     def set_password(self, password: str) -> None:
         """Generate a hashed password."""
