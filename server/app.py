@@ -1,14 +1,10 @@
 from flask import Flask, render_template
 from flask_migrate import Migrate
-from server.config import Config
-from .database import db, init_app
+from server import create_app, db
 
-app = Flask(__name__, template_folder='../templates')
-app.config.from_object(Config)
+app = create_app()
 
-init_app(app)
-migrate = Migrate(app, db)
-
+migrate = Migrate(app,db)
 
 @app.route('/')
 def index():
