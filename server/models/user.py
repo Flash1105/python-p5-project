@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from server.database import db
 from enum import Enum
-
+from flask_login import UserMixin
 
 
 class UserRole(Enum):
@@ -18,6 +18,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     role = db.Column(db.Enum(UserRole), default=UserRole.ENTHUSIAST)
     
+    is_active = db.Column(db.Boolean, default=True)
     # Hashing the password before saving
     def set_password(self, password: str) -> None:
         """Generate a hashed password."""
