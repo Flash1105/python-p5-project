@@ -1,12 +1,12 @@
 from flask import Flask, render_template
 from flask_migrate import Migrate
 from server.config import Config
-from .database import db
+from .database import db, init_app
 
 app = Flask(__name__, template_folder='../templates')
 app.config.from_object(Config)
 
-db.init_app(app)
+init_app(app)
 migrate = Migrate(app, db)
 
 from auth.routes import auth_bp, observation_bp
