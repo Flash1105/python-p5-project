@@ -5,7 +5,7 @@ from .forms import LoginForm, RegisterForm
 from server.models.user import User
 from server.database import db
 from server.models.observation import Observation
-
+from server.models.discussion import Discussion
 auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -52,11 +52,18 @@ def observations():
     obs_list = Observation.query.all()
     return render_template('observations.html', observations=obs_list)
 
-@observation_bp.route('/observation/<int:obs_id>', method=['GET', 'POST'])
+@observation_bp.route('/observation/<int:obs_id>', methods=['GET', 'POST'])
 def observation_detail(obs_id):
     observation = Observation.query.get(obs_id)
     if request.method == 'POST':
-    
+        message = request.form.get('message')
+        if message: 
+            discussion = Discussion(message=message, user_id=session['user_id'], observation_id=obs_id)
+            db.session.add(discussion)
+            db.session.commit()
+            flash ('Discussion added successfully!', 'success')
+            return redirect(url_for('observation.observation_details', obs_id=obs_id))
+
     discussions = Discussion.query.filter_by(observation_id=obs_id).all()
     return render_template('observation_detail.html', observation=observation, discussions=discussions)
 
