@@ -94,5 +94,3 @@ def new_observation():
         return redirect(url_for('observation.observations'))
     return render_template('new_observation.html')
 
-def load_user(user_id):
-    return User.query.get(int(user_id))
