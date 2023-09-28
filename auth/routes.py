@@ -55,9 +55,11 @@ def register():
     return render_template('register.html', form=form)
 
 @auth_bp.route('/dashboard')
-@login_required
+@login_required 
 def dashboard():
-    return render_template('dashboard.html')
+    observations = Observation.query.all()
+    discussions = Discussion.query.all()
+    return render_template('dashboard.html, observations=observations, discussions=discussions)')
 
 observation_bp = Blueprint('observation', __name__)
 
