@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %} Welcome to EntomoConnect! {% endblock %}</title>
-</html>
+</head>
 <body>
     <nav>
-        <a href="{{url_for('main.index') }}>Home</a>
+        <a href="{{url_for('.index') }}>Home</a>
         {% if 'user_id' in session %}
         <a href="{{ url_for('auth.logout') }}">Logout</a>
         {% else %}
