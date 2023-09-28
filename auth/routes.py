@@ -4,10 +4,15 @@ from werkzeug.security import check_password_hash
 from .forms import LoginForm, RegisterForm
 from server.models.user import User
 from server.database import db
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user, LoginManager
 from server.models.observation import Observation
 from server.models.discussion import Discussion
 
+login_manager = LoginManager()
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 auth_bp = Blueprint('auth', __name__)
@@ -20,14 +25,14 @@ def login():
         if user and check_password_hash(user.password_hash, form.password.data):
             login_user(user)
             flash('You were successfully logged in!', 'success')
-            return redirect(url_for('templates.dashboard'))
+            return redirect(url_for('auth.dashboard'))
         else:
             flash('Invalid username or password', 'danger')
     return render_template('login.html', form=form)
 
 @auth_bp.route('/logout')
 def logout():
-    session.pop('user_id', None)
+    logout_user()
     flash('You were successfully logged out!', 'success')
     return redirect(url_for('main.index'))
 
@@ -59,7 +64,7 @@ def register():
 def dashboard():
     observations = Observation.query.all()
     discussions = Discussion.query.all()
-    return render_template('dashboard.html, observations=observations, discussions=discussions)')
+    return render_template('dashboard.html', observations=observations, discussions=discussions)
 
 observation_bp = Blueprint('observation', __name__)
 
