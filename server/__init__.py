@@ -2,9 +2,14 @@ from flask import Flask
 from flask_login import LoginManager
 from server.config import Config
 from server.database import db
-import os
+from flask_sqlalchemy import SQLAlchemy
 
 login_manager = LoginManager()
+
+@login_manager.user_loader
+def load_user(user_id):
+    from server.models.user import User 
+    return User.query.get(int(user_id))
 
 def create_app(config_class=Config):
     template_path = '/home/flash1105/development/code/phase-5/python-p5-project-EntomoConnect/templates'
