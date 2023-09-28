@@ -42,3 +42,4 @@ def register():
             flash('An error occurred. Please try again later.', 'danger')
             print(e)  # For debugging purpose. In production, consider logging the error.
     return render_template('register.html', form=form)
+
