@@ -37,25 +37,7 @@ def logout():
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     print("Register route hit")
-    form = RegisterForm()
-    if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
-        user.set_password(form.password.data)
-        try:
-            db.session.add(user)
-            db.session.commit()
-            print("User added to the database:", user)
-            flash('You were successfully registered!', 'success')
-            login_user(user)
-            return redirect(url_for('auth.dashboard'))
-        except Exception as e:
-            db.session.rollback()
-            flash('An error occurred. Please try again later.', 'danger')
-            print("Error", e)
-    else:
-        print("form not validated", form.errors)
-
-    return render_template('register.html')
+    pass
 
 @auth_bp.route('/dashboard')
 @login_required 
@@ -64,7 +46,7 @@ def dashboard():
     discussions = Discussion.query.all()
     return render_template('dashboard.html', observations=observations, discussions=discussions)
 
-observation_bp = Blueprint('observation', __name__)
+observation_bp = Blueprint('observation_bp', __name__)
 
 # display list of observations
 @observation_bp.route('/observations')
