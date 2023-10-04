@@ -1,10 +1,11 @@
 from flask import Flask
 from flask_login import LoginManager
-from server.config import Config
-from server.database import db
-
+from .config import Config
+from .database import db
+from flask import Blueprint
 
 login_manager = LoginManager()
+bp = Blueprint('auth', __name__)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -19,7 +20,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     login_manager.init_app(app)
 
-    from auth import bp as auth_bp
+    from .auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
     return app
